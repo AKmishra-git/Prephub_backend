@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productivity Management</title>
+    <link rel="shortcut icon" href="./apple-touch-icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.8.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
+</head>
+<body>
+   <div class="main">
+    <nav>
+      <div class="dash-container">
+         <h2>My DashBoard</h2>
+
+      </div>
+     
+      <div class="theme">
+        <h3><i class="ri-sun-line"></i></h3>
+
+      </div>
+
+    </nav>
+
+     <div class="second">
+       <div class="header1">
+        <h2>11°C</h2>
+        <div class="location">
+          <h2><i class="ri-map-pin-fill"></i></h2>
+          <h2>NOIDA</h2>
+        </div>
+        <div class="precipitation">
+          <h3><i class="ri-rainy-fill"></i></h3>
+          <h3 class="precip">Precipitation: 0%</h3>
+        
+          
+        </div>
+
+        <div class="humidity">
+          <h3><i class="ri-water-percent-fill"></i></h3>
+          <h3 class="humid">Humidity: 73%</h3>
+        </div>
+
+        
+
+        <div class="wind">
+          <h3><i class="ri-windy-fill"></i></h3>
+          <h3 class="air">Wind: 2 km/h</h3>
+        </div>
+        
+        
+        
+       </div>
+
+       
+
+       <div class="header2">
+          <h2>Weather</h2>
+          <h4 class="day">Saturday, 10:00PM</h4>
+         
+          <h4 class="condn">Clear</h4>
+         
+         
+        </div>
+        
+
+
+
+      
+
+     
+     </div>
+  
+    
+
+     <div class="third">
+        <div class="section2" id="0">
+            <p>TO DO List</p>
+        </div>
+
+         <div class="section2" id="1">
+           <p>Daily Planner</p>
+        </div>
+
+         <div class="section2" id="2">
+            <p>Motivation</p>
+        </div>
+
+         <div class="section2" id="3">
+           <p>Pomodoro Timer</p>
+        </div>
+
+         <div class="section2" id="4">
+            <p>Goals</p>
+        </div>
+     </div>
+
+     <div class="pages">
+      <div class="page to-do-page" id="0">
+        <h2>Your Personalized To Do list</h2>
+        <button class="back">Close</button>
+
+        <div class="to-do-container">
+            <div class="addtask">
+               <form action="">
+                
+                <input type="text" placeholder="Enter task">
+                <textarea placeholder="Enter Details" id="" rows="" cols=""></textarea>
+                <button>Click to ADD</button>
+               </form>
+            </div>
+            <div class="alltask">
+               
+
+                
+
+                
+            </div>
+        </div>
+
+
+
+      </div>
+      <div class="page planner-page" id="1">
+         <h2>Your Daily Plans</h2>
+
+         <div class="day-planner-time">
+           <div class="time-section">
+            <p>6:00-7:00</p>
+            <input type="text" placeholder="...">
+           </div>
+
+           <div class="time-section">
+            <p>7:00-8:00</p>
+            <input type="text" placeholder="...">
+           </div>
+
+           
+         </div>
+        <button class="back">Close</button>
+      </div>
+      <div class="page motivation-page" id="2">
+         
+        <button class="back">Close</button>
+
+        <div class="motivational-container">
+            <div class="motivation-wrapper">
+                
+              <div class="quoteheader">
+                <h2>Quote of the day</h2>
+              </div>
+
+              <div class="quotecontent">
+                <img src="./icons8-quote-50.png" alt="">
+                <p></p>
+                <div class="writer-name">
+                    <h2></h2>
+                </div>
+              </div>
+            </div>
+
+        </div>
+      </div>
+      <div class="page timer-page" id="3">
+         <h2>Set Your Time!</h2>
+
+         <div class="pomo-timer">
+            <h1>25:00</h1>
+            <button class="start">Start</button>
+            <button class="pause">Pause</button>
+            <button class="reset">Reset</button>
+         </div>
+        <button class="back">Close</button>
+      </div>
+      <div class="page goals-page" id="4">
+         <h2>Set Your Goals</h2>
+
+         <div class="goals-container">
+          <h3>Add your goals</h3>
+         <textarea placeholder="Enter your goal" id=""></textarea>
+         <button>ADD</button>
+         
+         </div>
+
+         <div class="goals-list">
+            <h2>My Goals</h2>
+
+            <div class="goal-item">
+            <span>Learn JavaScript</span>
+            <button class="complete-btn">Mark as Completed</button>
+          </div>
+
+       <div class="goal-item">
+        <span>Build a Project</span>
+        <button class="complete-btn">Mark as Completed</button>
+       </div>
+
+      <div class="goal-item">
+        <span>Practice Daily</span>
+        <button class="complete-btn">Mark as Completed</button>
+      </div>
+     </div>
+
+        <button class="back">Close</button>
+      </div>
+    </div>
+   </div>
+
+
+    <script src="script.js"></script>
+</body>
+</html>
