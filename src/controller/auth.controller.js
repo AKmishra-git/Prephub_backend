@@ -1,9 +1,8 @@
 const userModel = require("../models/auth.model")
-const jwt = require('jsonwebtoken')
+const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
 
-
-//register
+// ===================== REGISTER =====================
 async function userRegister(req, res) {
   try {
     const { name, email, password } = req.body
@@ -38,37 +37,38 @@ async function userRegister(req, res) {
       {
         userId: user._id,
         name: user.name,
-        email: user.email
+        email: user.email,
       },
       process.env.JWT_SECRET,
-      {
-        expiresIn: "7d"
-      }
+      { expiresIn: "7d" }
     )
 
+    // 🔥 Set cookie for production
     res.cookie("jwt_token", token, {
-        httpOnly: true,
-        secure: false, // set true in production (https)
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      path: "/",
     })
-    
 
     res.status(201).json({
+      success: true,
       message: "You registered successfully",
       userId: user._id,
     })
   } catch (err) {
     console.error(err)
     res.status(500).json({
+      success: false,
       message: "Server error",
     })
   }
 }
 
-//login
-
-async function userLogin(req,res){
-    try{
-        const {email,password} = req.body;
+// ===================== LOGIN =====================
+async function userLogin(req, res) {
+  try {
+    const { email, password } = req.body
 
     if (!email || !password) {
       return res.status(400).json({
@@ -78,102 +78,97 @@ async function userLogin(req,res){
 
     const normalizedEmail = email.trim().toLowerCase()
 
-    const user = await userModel.findOne({email: normalizedEmail})
+    const user = await userModel.findOne({ email: normalizedEmail })
 
-    if(!user){
-        return res.status(400).json({
-            message: "User does not exists"
-        })
+    if (!user) {
+      return res.status(400).json({
+        message: "User does not exist",
+      })
     }
 
     const isMatch = await bcrypt.compare(password, user.password)
 
-    if(!isMatch){
-        return res.status(400).json({
-            message: "User does not exist"
-        })
+    if (!isMatch) {
+      return res.status(400).json({
+        message: "Invalid credentials",
+      })
     }
 
-        const token = jwt.sign(
+    const token = jwt.sign(
       {
         userId: user._id,
         name: user.name,
-        email: user.email
+        email: user.email,
       },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     )
 
+    // 🔥 Set cookie for production
     res.cookie("jwt_token", token, {
       httpOnly: true,
-      secure: false, 
-      sameSite: "none"
+      secure: true,
+      sameSite: "none",
+      path: "/",
     })
-
 
     res.status(200).json({
       success: true,
       message: "Login successful",
       userId: user._id,
     })
-
   } catch (err) {
     console.error(err)
     res.status(500).json({
+      success: false,
       message: "Server error",
     })
   }
 }
 
+// ===================== GET CURRENT USER =====================
 async function getMe(req, res) {
   try {
-    // user already decoded from token
     const user = req.user
 
     if (!user) {
       return res.status(401).json({
         success: false,
-        message: "Not authenticated"
+        message: "Not authenticated",
       })
     }
 
     res.json({
       success: true,
-      user
+      user,
     })
-
   } catch (err) {
     res.status(500).json({
       success: false,
-      error: err.message
+      error: err.message,
     })
   }
 }
 
-
-
+// ===================== LOGOUT =====================
 async function logout(req, res) {
   res.clearCookie("jwt_token", {
     httpOnly: true,
-    secure: false,
-    sameSite: "lax",
+    secure: true,
+    sameSite: "none",
+    path: "/",
   })
 
   res.json({
+    success: true,
     message: "Logged out successfully",
   })
 }
 
-
-
-
-
-
-
-
+// ===================== EXPORTS =====================
 module.exports = {
-    userRegister,
-    userLogin,
-    getMe,
-    logout
+  userRegister,
+  userLogin,
+  getMe,
+  logout,
 }
