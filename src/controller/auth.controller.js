@@ -107,6 +107,7 @@ async function userLogin(req,res){
     res.cookie("jwt_token", token, {
       httpOnly: true,
       secure: false, 
+      sameSite: "none"
     })
 
 

@@ -11,7 +11,7 @@ const app = express()
 app.use(express.json())
 app.use(cookieparser())
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: "https://prephub-frontend.vercel.app",
   credentials: true
 }))
 
