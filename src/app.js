@@ -9,7 +9,7 @@ const app = express();
 
 // middlewares
 app.use(cors({
-  origin: "https://prephub-frontend.vercel.app",
+  origin: "https://YOUR-FRONTEND.onrender.com",
   credentials: true
 }));
 
