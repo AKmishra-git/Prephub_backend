@@ -7,9 +7,11 @@ const authRouter = require('./routes/auth.routes')
 const progressRouter = require('./routes/progress.routes')
 const app = express();
 
+
+
 // middlewares
 app.use(cors({
-  origin: "https://YOUR-FRONTEND.onrender.com",
+  origin: "http://localhost:3000",
   credentials: true
 }));
 
