@@ -10,8 +10,12 @@ const app = express();
 
 
 // middlewares
+
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: [
+    "http://localhost:3000",
+    "https://prephub-frontend.vercel.app"
+  ],
   credentials: true
 }));
 
