@@ -23,6 +23,10 @@ app.use("/api/prep", authRouter);
 app.use("/api/prep", videoRouter);
 app.use("/api/prep/progress", progressRouter);
 
+app.get("/", (req, res) => {
+  res.send("PrepHub API running");
+});
+
 
 
 module.exports = app;
