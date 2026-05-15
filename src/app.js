@@ -5,17 +5,14 @@ const cookieParser = require("cookie-parser");
 const videoRouter = require('./routes/video.routes')
 const authRouter = require('./routes/auth.routes')
 const progressRouter = require('./routes/progress.routes')
-const passport = require("./config/passport")
-
 
 const app = express();
 
+// ✅ passport imported AFTER app is created so env vars are available
+const passport = require("./config/passport")
 app.use(passport.initialize())
 
-
-
 // middlewares
-
 app.use(cors({
   origin: [
     "http://localhost:3000",
@@ -36,9 +33,6 @@ app.get("/", (req, res) => {
   res.send("PrepHub API running");
 });
 
-// routes/health.js
 app.get("/health", (req, res) => res.json({ status: "ok" }))
-
-
 
 module.exports = app;
