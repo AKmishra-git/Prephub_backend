@@ -1,4 +1,3 @@
-
 const express = require('express');
 const router = express.Router();
 
@@ -16,10 +15,12 @@ router.get("/videos/:subject/:topic", ctrl.getVideos);
 // add video
 router.post("/videos", ctrl.addVideo);
 
-//searchvideos
+// search videos
 router.get("/search", ctrl.searchVideos);
 
-
+// attach or update the LeetCode problem URL on a video
+// body: { leetcodeUrl: "https://leetcode.com/problems/..." }
+router.patch("/videos/:id/leetcode", ctrl.updateLeetcodeUrl);
 
 
 module.exports = router;

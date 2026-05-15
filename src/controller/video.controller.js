@@ -129,6 +129,21 @@ exports.addVideo = async (req, res) => {
       });
     }
 
+
+    // updateLeetcodeUrl
+  exports.updateLeetcodeUrl = async (req, res) => {
+  const { id } = req.params;
+  const { leetcodeUrl } = req.body;
+
+  const video = await Video.findByIdAndUpdate(
+    id,
+    { leetcodeUrl },
+    { new: true }
+  );
+
+  res.json({ success: true, video });
+};
+
     // 🔹 5. Save in DB
     const video = await videoModel.create({
       subject,
