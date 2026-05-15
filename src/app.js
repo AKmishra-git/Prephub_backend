@@ -32,7 +32,7 @@ app.get("/", (req, res) => {
 });
 
 // routes/health.js
-router.get("/health", (req, res) => res.json({ status: "ok" }))
+app.get("/health", (req, res) => res.json({ status: "ok" }))
 
 
 
