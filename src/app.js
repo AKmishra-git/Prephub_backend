@@ -5,7 +5,12 @@ const cookieParser = require("cookie-parser");
 const videoRouter = require('./routes/video.routes')
 const authRouter = require('./routes/auth.routes')
 const progressRouter = require('./routes/progress.routes')
+const passport = require("./config/passport")
+
+
 const app = express();
+
+app.use(passport.initialize())
 
 
 
