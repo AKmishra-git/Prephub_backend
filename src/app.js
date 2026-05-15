@@ -31,6 +31,9 @@ app.get("/", (req, res) => {
   res.send("PrepHub API running");
 });
 
+// routes/health.js
+router.get("/health", (req, res) => res.json({ status: "ok" }))
+
 
 
 module.exports = app;

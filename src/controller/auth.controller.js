@@ -39,8 +39,7 @@ async function userRegister(req, res) {
         name: user.name,
         email: user.email,
       },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" }
+      process.env.JWT_SECRET
     )
 
     // 🔥 Set cookie for production
@@ -100,8 +99,8 @@ async function userLogin(req, res) {
         name: user.name,
         email: user.email,
       },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" }
+      process.env.JWT_SECRET
+   
     )
 
     // 🔥 Set cookie for production
