@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const noteRouter = require('./routes/note.routes')
 
 const videoRouter = require('./routes/video.routes')
 const authRouter = require('./routes/auth.routes')
@@ -27,7 +28,10 @@ app.use(cookieParser());
 // routes
 app.use("/api/prep", authRouter);
 app.use("/api/prep", videoRouter);
+
+
 app.use("/api/prep/progress", progressRouter);
+app.use("/api/notes", noteRouter)
 
 app.get("/", (req, res) => {
   res.send("PrepHub API running");
