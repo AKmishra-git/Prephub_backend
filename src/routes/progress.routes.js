@@ -6,9 +6,10 @@ const authMiddleware = require("../middleware/auth.middleware")
 // mark watched
 router.post("/", authMiddleware, ctrl.markWatched)
 
+// ✅ dashboard must be BEFORE /:subject
+router.get("/dashboard", authMiddleware, ctrl.getDashboardStats)
+
 // get progress
 router.get("/:subject", authMiddleware, ctrl.getProgress)
-
-router.get("/dashboard", authMiddleware, ctrl.getDashboardStats)
 
 module.exports = router
