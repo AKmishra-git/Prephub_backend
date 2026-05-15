@@ -9,4 +9,6 @@ router.post("/", authMiddleware, ctrl.markWatched)
 // get progress
 router.get("/:subject", authMiddleware, ctrl.getProgress)
 
+router.get("/dashboard", authMiddleware, ctrl.getDashboardStats)
+
 module.exports = router
