@@ -14,7 +14,7 @@ app.use(passport.initialize())
 app.use(cors({
   origin: [
     "http://localhost:3000",
-    "https://prep-portal-frontend.vercel.app/"
+    "https://prep-portal-frontend.vercel.app"
   ],
   credentials: true
 }));
