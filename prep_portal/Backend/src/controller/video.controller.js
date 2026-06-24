@@ -1,4 +1,3 @@
-
 const videoModel = require("../models/video.models");
 
 // ===================== SEARCH VIDEOS =====================
@@ -13,7 +12,6 @@ exports.searchVideos = async (req, res) => {
       });
     }
 
-    // title पर case-insensitive search
     const videos = await videoModel.find({
       title: { $regex: q, $options: "i" }
     }).sort({ createdAt: -1 });
@@ -23,6 +21,7 @@ exports.searchVideos = async (req, res) => {
       count: videos.length,
       data: videos
     });
+
   } catch (err) {
     res.status(500).json({
       success: false,
@@ -30,7 +29,6 @@ exports.searchVideos = async (req, res) => {
     });
   }
 };
-
 
 // ===================== GET ALL SUBJECTS =====================
 exports.getSubjects = async (req, res) => {
@@ -41,8 +39,12 @@ exports.getSubjects = async (req, res) => {
       success: true,
       data: subjects
     });
+
   } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({
+      success: false,
+      error: err.message
+    });
   }
 };
 
@@ -52,28 +54,31 @@ exports.getTopics = async (req, res) => {
     const subject = req.params.subject.trim().toLowerCase();
 
     const topics = await videoModel
-      .find({ subject: subject })
+      .find({ subject })
       .distinct("topic");
 
     res.json({
       success: true,
       data: topics
     });
+
   } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({
+      success: false,
+      error: err.message
+    });
   }
 };
 
 // ===================== GET VIDEOS BY SUBJECT + TOPIC =====================
 exports.getVideos = async (req, res) => {
-  console.log("🔥 GET VIDEOS HIT", req.method, req.originalUrl)
   try {
     const subject = req.params.subject.trim().toLowerCase();
     const topic = req.params.topic.trim().toLowerCase();
 
     const videos = await videoModel.find({
-      subject: subject,
-      topic: topic
+      subject,
+      topic
     });
 
     res.json({
@@ -81,30 +86,40 @@ exports.getVideos = async (req, res) => {
       count: videos.length,
       data: videos
     });
+
   } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
+    res.status(500).json({
+      success: false,
+      error: err.message
+    });
   }
 };
 
 // ===================== ADD NEW VIDEO =====================
 exports.addVideo = async (req, res) => {
   try {
-    let { subject, topic, title, videoUrl } = req.body;
+    let {
+      subject,
+      topic,
+      title,
+      videoUrl,
+      leetcodeUrl
+    } = req.body;
 
-    // 🔹 1. Check all fields
+    // Validate fields
     if (!subject || !topic || !title || !videoUrl) {
       return res.status(400).json({
         success: false,
-        error: "All fields are required"
+        error: "All required fields must be provided"
       });
     }
 
-    // 🔹 2. Clean data
+    // Clean data
     subject = subject.trim().toLowerCase();
     topic = topic.trim().toLowerCase();
     title = title.trim();
 
-    // 🔹 3. Validate YouTube URL
+    // Validate YouTube URL
     if (
       !videoUrl.includes("youtube.com") &&
       !videoUrl.includes("youtu.be")
@@ -115,7 +130,7 @@ exports.addVideo = async (req, res) => {
       });
     }
 
-    // 🔹 4. Check duplicate
+    // Duplicate check
     const existing = await videoModel.findOne({
       subject,
       topic,
@@ -129,15 +144,54 @@ exports.addVideo = async (req, res) => {
       });
     }
 
-    // 🔹 5. Save in DB
+    // Create video
     const video = await videoModel.create({
       subject,
       topic,
       title,
-      videoUrl
+      videoUrl,
+      leetcodeUrl: leetcodeUrl || ""
     });
 
-    // 🔹 6. Response
+    res.status(201).json({
+      success: true,
+      data: video
+    });
+
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      error: err.message
+    });
+  }
+};
+
+// ===================== UPDATE LEETCODE URL =====================
+exports.updateLeetcodeUrl = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { leetcodeUrl } = req.body;
+
+    if (!leetcodeUrl) {
+      return res.status(400).json({
+        success: false,
+        error: "leetcodeUrl is required"
+      });
+    }
+
+    const video = await videoModel.findByIdAndUpdate(
+      id,
+      { leetcodeUrl },
+      { new: true }
+    );
+
+    if (!video) {
+      return res.status(404).json({
+        success: false,
+        error: "Video not found"
+      });
+    }
+
     res.json({
       success: true,
       data: video

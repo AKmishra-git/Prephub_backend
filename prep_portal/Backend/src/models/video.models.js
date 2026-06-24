@@ -20,6 +20,11 @@ const videoSchema = new mongoose.Schema({
         required: [true, "videoUrl not available"]
     },
 
+    leetcodeUrl: {
+        type: String,
+        default: ""
+    },
+
     createdAt:{
         type: Date,
         default: Date.now

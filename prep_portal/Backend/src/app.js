@@ -1,22 +1,33 @@
 const express = require('express');
-const videoRouter = require('../src/routes/video.routes')
-const authRouter = require("../src/routes/auth.routes")
-const cors = require("cors")
-const progressRouter = require("../src/routes/progress.routes")
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const noteRouter = require('./routes/note.routes')
+const videoRouter = require('./routes/video.routes')
+const authRouter = require('./routes/auth.routes')
+const progressRouter = require('./routes/progress.routes')
 
-const cookieparser = require("cookie-parser")
+const app = express();
 
+const passport = require("./config/passport")
+app.use(passport.initialize())
 
-const app = express()
-app.use(express.json())
-app.use(cookieparser())
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: [
+    "http://localhost:3000",
+    "https://prep-portal-frontend.vercel.app/"
+  ],
   credentials: true
-}))
+}));
 
-app.use("/api/prep", authRouter)
-app.use("/api/prep", videoRouter)
-app.use("/api/prep/progress", progressRouter)
+app.use(express.json());
+app.use(cookieParser());
+
+// routes
+app.use("/api/prep", authRouter);
+app.use("/api/prep", videoRouter);
+app.use("/api/prep/progress", progressRouter);
+app.use("/api/notes", noteRouter);
+
+app.get("/health", (req, res) => res.json({ status: "ok" }));
 
 module.exports = app;
