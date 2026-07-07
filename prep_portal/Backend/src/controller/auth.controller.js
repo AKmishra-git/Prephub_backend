@@ -1,6 +1,7 @@
 const userModel = require("../models/auth.model")
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
+const Blacklist = require("../models/blacklist.model")
 
 // ===================== REGISTER =====================
 async function userRegister(req, res) {
@@ -150,18 +151,33 @@ async function getMe(req, res) {
 }
 
 // ===================== LOGOUT =====================
-async function logout(req, res) {
-  res.clearCookie("jwt_token", {
-    httpOnly: true,
-    secure: true,
-    sameSite: "none",
-    path: "/",
-  })
 
-  res.json({
-    success: true,
-    message: "Logged out successfully",
-  })
+async function logout(req, res) {
+  try {
+    const token = req.cookies.jwt_token
+ 
+    // ✅ blacklist the token before clearing it
+    if (token) {
+      await Blacklist.create({ token })
+    }
+ 
+    res.clearCookie("jwt_token", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      path: "/",
+    })
+ 
+    res.json({
+      success: true,
+      message: "Logged out successfully",
+    })
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      error: err.message,
+    })
+  }
 }
 
 // ===================== EXPORTS =====================
