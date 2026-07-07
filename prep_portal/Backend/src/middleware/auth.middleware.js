@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken")
 const Blacklist = require("../models/blacklist.model")
+const redis = require("../config/cache.js")
 
 async function authMiddleware(req, res, next) {
   try {
@@ -12,7 +13,7 @@ async function authMiddleware(req, res, next) {
     }
 
     // ✅ check if token is blacklisted
-    const isBlacklisted = await Blacklist.findOne({ token })
+    const isBlacklisted = await redis.get(token);
     if (isBlacklisted) {
       return res.status(401).json({
         message: "Unauthorized - token has been invalidated. Please login again.",
