@@ -27,6 +27,7 @@ app.use("/api/prep", authRouter);
 app.use("/api/prep", videoRouter);
 app.use("/api/prep/progress", progressRouter);
 app.use("/api/notes", noteRouter);
+app.use("/api/chat", require("./routes/chat.routes"))
 
 app.get("/health", (req, res) => res.json({ status: "ok" }));
 
